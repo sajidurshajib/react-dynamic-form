@@ -10,7 +10,7 @@ button{
     border:none;
     border-radius: 2px;
     display: block;
-    margin:10px;
+    margin:10px !important;
     padding: 5px 10px;
     transition: 200ms;
     outline: none;
@@ -109,18 +109,29 @@ input[type=text]{
 
 
 
-
-
-
-
-
-/* Text field */
-/* #textFieldShowBtn{
-    display: block;
+.dropAddRemove{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 9px;
 }
-#textFieldHideBtn{
-    display: none;
-} */
-/* #forTextField{
-    display: none;
-} */
+
+select.form-control{
+    display: inline-block;
+    width: auto;
+    margin: auto;
+    border: 1px solid #df4f37;
+}
+
+
+
+.radioAddRemove{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 9px;
+}
+
+.checkBoxAddRemove{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 9px;
+}
