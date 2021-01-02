@@ -114,7 +114,16 @@ input[type=text]{
     width: 40%;
     margin: 5px 9px;
 }
-
+.dropText{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
+.dropValue{
+    display: inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
 select.form-control{
     display: inline-block;
     width: auto;

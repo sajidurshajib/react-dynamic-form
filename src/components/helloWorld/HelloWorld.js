@@ -13,7 +13,8 @@ class HelloWorld extends Component{
         textArea: true,
         dropDown: true,
         radioBtn: true,
-        checkBox: true
+        checkBox: true,
+        dropDownCount: 0
     }
 
     toggle=(ch)=>{
@@ -34,7 +35,16 @@ class HelloWorld extends Component{
         }
     }
 
+
     render(){
+
+        const dropDownItems = []
+        let i;
+        let c=this.state.dropDownCount
+        for(i=0;i<c;i++) {
+            dropDownItems.push(<><input className={"dropText"} placeholder={"Text"}/><input className={"dropValue"} placeholder={"Value"}/></>)
+        }
+
         return(
             <div className="HelloWorld">
                 <Container>
@@ -77,10 +87,21 @@ class HelloWorld extends Component{
                                         <input type="text" id="nameDropDown" placeholder="give a unique name"/>
                                         <span className="likeLabel">Required</span><input type="checkbox" id="requiredDropDown"/>
 
-                                        <div id="dropDownMakerDiv"></div>
+                                        <div id="dropDownMakerDiv">
+                                            {dropDownItems}
+                                        </div>
 
-                                        <button className="dropAddRemove">Add</button>
-                                        <button className="dropAddRemove">Remove</button>
+                                        <button className="dropAddRemove" onClick={(e)=>this.setState(
+                                            {dropDownCount:this.state.dropDownCount+1}
+                                            )}>Add</button>
+
+                                        <button className="dropAddRemove" onClick={(e)=>{
+                                            if(this.state.dropDownCount>0){
+                                            this.setState({dropDownCount:this.state.dropDownCount-1})
+                                            }
+                                            }}>Remove</button>
+
+                                        {console.log(this.state.dropDownCount)}
                                         <button className="ml-10">DropDown Create</button>
                                         <hr/>
                                     </div>
@@ -93,7 +114,7 @@ class HelloWorld extends Component{
                                     <div id="forRadio">
                                         <input type="text" id="labelRadio" placeholder="Label"/>
                                         <input type="text" id="nameRadio" placeholder="give a unique name"/>
-                                        <span class="likeLabel">Required</span><input type="checkbox" id="requiredRadio"/>
+                                        <span className="likeLabel">Required</span><input type="checkbox" id="requiredRadio"/>
 
                                         <div id="radioMakerDiv"></div>
 
