@@ -2,19 +2,25 @@ import React, {Component, Fragment} from 'react'
 import {
     Container,
     Row,
-    Col
+    Col,
+    Form
 } from 'react-bootstrap'
 import './DynamicFormDefault.css'
 
 class HelloWorld extends Component{
     
     state={
+        mainArray:[],
+        //for toggle
         textField: true,
         textArea: true,
         dropDown: true,
         radioBtn: true,
         checkBox: true,
-        dropDownCount: 0
+        //Those are just for toggle
+        dropDownCount: 0,
+        radioBtnCount: 0,
+        checkBoxCount: 0 
     }
 
     toggle=(ch)=>{
@@ -39,16 +45,38 @@ class HelloWorld extends Component{
     render(){
 
         const dropDownItems = []
-        let i;
+        const radioBtnItems = []
+        const checkBoxItems = []
+        let i,j,k;
+
         let c=this.state.dropDownCount
         for(i=0;i<c;i++) {
-            dropDownItems.push(<><input className={"dropText"} placeholder={"Text"}/><input className={"dropValue"} placeholder={"Value"}/></>)
+            dropDownItems.push(<>
+                                    <input className={"dropText"} placeholder={"Text"}/>
+                                    <input className={"dropValue"} placeholder={"Value"}/>
+                            </>)
+        }
+
+        let d=this.state.radioBtnCount
+        for(j=0;j<d;j++){
+            radioBtnItems.push(<>
+                                    <input className={"radioText"} placeholder={"Text"}/>
+                                    <input className={"radioValue"} placeholder={"Value"}/>
+                                </>)
+        }
+
+        let e=this.state.checkBoxCount
+        for(k=0;k<e;k++){
+            checkBoxItems.push(<>
+                                    <input className={"checkBoxText"} placeholder={"Text"}/>
+                                    <input className={"checkBoxValue"} placeholder={"Value"}/>
+                                </>)
         }
 
         return(
             <div className="HelloWorld">
                 <Container>
-                    <h2>Dynamic Form</h2>
+                    <h2 className="center">Dynamic Form</h2>
                     <Row>
                         <Col md="3">
                             {this.state.textField ? (<p className="flip" onClick={(e)=>this.toggle(1)}>Text field <span>+</span></p>):(
@@ -97,11 +125,10 @@ class HelloWorld extends Component{
 
                                         <button className="dropAddRemove" onClick={(e)=>{
                                             if(this.state.dropDownCount>0){
-                                            this.setState({dropDownCount:this.state.dropDownCount-1})
+                                                this.setState({dropDownCount:this.state.dropDownCount-1})
                                             }
                                             }}>Remove</button>
 
-                                        {console.log(this.state.dropDownCount)}
                                         <button className="ml-10">DropDown Create</button>
                                         <hr/>
                                     </div>
@@ -116,11 +143,20 @@ class HelloWorld extends Component{
                                         <input type="text" id="nameRadio" placeholder="give a unique name"/>
                                         <span className="likeLabel">Required</span><input type="checkbox" id="requiredRadio"/>
 
-                                        <div id="radioMakerDiv"></div>
+                                        <div id="radioMakerDiv">
+                                            {radioBtnItems}
+                                        </div>
 
-                                        <button className="radioAddRemove">Add</button>
-                                        <button className="radioAddRemove">Remove</button>
-                                        <button>Radio button Create</button>
+                                        <button className="radioAddRemove" onClick={(e)=>this.setState(
+                                            {radioBtnCount:this.state.radioBtnCount+1}
+                                            )}>Add</button>
+                                        <button className="radioAddRemove" onClick={(e)=>{
+                                            if(this.state.radioBtnCount>0){
+                                                this.setState({radioBtnCount:this.state.radioBtnCount-1})
+                                            }
+                                        }}>Remove</button>
+
+                                        <button class="ml-10">Radio button Create</button>
                                         <hr/>
                                     </div>
                                 </Fragment>
@@ -134,16 +170,29 @@ class HelloWorld extends Component{
                                         <input type="text" id="nameCheckBox" placeholder="give a unique name"/>
                                         <span className="likeLabel">Required</span><input type="checkbox" id="requiredCheckBox"/>
 
-                                        <div id="checkBoxMakerDiv"></div>
+                                        <div id="checkBoxMakerDiv">
+                                            {checkBoxItems}
+                                        </div>
 
-                                        <button className="checkBoxAddRemove">Add</button>
-                                        <button className="checkBoxAddRemove">Remove</button>
-                                        <button >Checkbox Create</button>
+                                        <button className="checkBoxAddRemove" onClick={(e)=>this.setState(
+                                            {checkBoxCount:this.state.checkBoxCount+1}
+                                        )}>Add</button>
+                                        <button className="checkBoxAddRemove" onClick={(e)=>{
+                                            if(this.state.checkBoxCount>0){
+                                                this.setState({checkBoxCount:this.state.checkBoxCount-1})
+                                            }
+                                        }}>Remove</button>
+                                        <button class="ml-10">Checkbox Create</button>
                                         <hr/>
                                     </div>
                                 </Fragment>
                             )}
 
+                        </Col>
+                        <Col md="7">
+                            <Form>
+                                <div id="dynamicForm"></div>
+                            </Form>
                         </Col>
                     </Row>
                 </Container>

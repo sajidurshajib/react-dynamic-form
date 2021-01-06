@@ -1,4 +1,4 @@
-h2{
+.center{
     text-align: center;
 }
 
@@ -16,8 +16,8 @@ button{
     outline: none;
 }
 button:focus{
-    border: none;
-    outline: none;
+    border: none !important;
+    outline: none !important;
 }
 button:hover{
     background-color: #ff5438;
@@ -138,9 +138,42 @@ select.form-control{
     width: 40%;
     margin: 5px 9px;
 }
+.radioText{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
+.radioValue{
+    display: inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
+
+.radioLabel{
+    display: inline-block;
+    margin: 5px;
+}
+
+
 
 .checkBoxAddRemove{
     display:inline-block;
     width: 40%;
     margin: 5px 9px;
+}
+
+.checkBoxText{
+    display:inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
+.checkBoxValue{
+    display: inline-block;
+    width: 40%;
+    margin: 5px 10px;
+}
+
+.checkBoxLabel{
+    display: inline-block;
+    margin: 5px;
 }
