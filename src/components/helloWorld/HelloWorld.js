@@ -10,6 +10,7 @@ import './DynamicFormDefault.css'
 class HelloWorld extends Component{
     
     state={
+        mainId:0,
         mainArray:[],
         //for toggle
         textField: true,
@@ -17,10 +18,21 @@ class HelloWorld extends Component{
         dropDown: true,
         radioBtn: true,
         checkBox: true,
-        //Those are just for toggle
+        //dropdown counter
         dropDownCount: 0,
         radioBtnCount: 0,
-        checkBoxCount: 0 
+        checkBoxCount: 0, 
+
+        //text field state
+        tfLabel:'',
+        tfName:'',
+        tfPlaceholder:'',
+        tfRequired:false,
+        //text area state
+        taLabel:'',
+        taName:'',
+        taPlaceholder:'',
+        taRequired:false
     }
 
     toggle=(ch)=>{
@@ -39,6 +51,65 @@ class HelloWorld extends Component{
         else if(ch===5){
             this.setState({checkBox:!this.state.checkBox})
         }
+    }
+
+
+    onChange = e =>{
+        this.setState({ [e.target.name]: e.target.value })
+    }
+    onChecked = e =>{
+        this.setState({ [e.target.name]: e.target.checked })
+    }
+
+
+    tfSubmit= e =>{
+        e.preventDefault()
+
+        const elm={
+            id: this.state.mainId+1,
+            fname: 'tf',
+            label: this.state.tfLabel,
+            name: this.state.tfName,
+            placeholder: this.state.tfPlaceholder,
+            required: this.state.tfRequired
+        }
+
+        this.setState({mainId:this.state.mainId+1})
+
+        this.state.mainArray.push(elm)
+
+        this.setState({
+            tfLabel:'',
+            tfName:'',
+            tfPlaceholder:'',
+            tfRequired:false
+        })
+    
+    }
+
+    taSubmit= e =>{
+        e.preventDefault()
+
+        const elm={
+            id: this.state.mainId+1,
+            fname: 'ta',
+            label: this.state.taLabel,
+            name: this.state.taName,
+            placeholder: this.state.taPlaceholder,
+            required: this.state.taRequired
+        }
+
+        this.setState({mainId:this.state.mainId+1})
+
+        this.state.mainArray.push(elm)
+
+        this.setState({
+            taLabel:'',
+            taName:'',
+            taPlaceholder:'',
+            taRequired:false
+        })
+    
     }
 
 
@@ -72,7 +143,7 @@ class HelloWorld extends Component{
                                     <input className={"checkBoxValue"} placeholder={"Value"}/>
                                 </>)
         }
-
+        console.log(this.state.mainArray)
         return(
             <div className="HelloWorld">
                 <Container>
@@ -82,28 +153,30 @@ class HelloWorld extends Component{
                             {this.state.textField ? (<p className="flip" onClick={(e)=>this.toggle(1)}>Text field <span>+</span></p>):(
                                 <Fragment>
                                 <p className="flip" onClick={(e)=>this.toggle(1)}>Text field <span>-</span></p>
-                                <div>
-                                    <input type="text" id="labelTextField" placeholder="Label" />
-                                    <input type="text" id="nameTextField" placeholder="give a unique name" />
-                                    <input type="text" id="placeholderTextField" placeholder="placeholder text" />
-                                    <span className="likeLabel">Required</span><input type="checkbox" id="requiredTextField" />
+                                <Form onSubmit={this.tfSubmit}>
+                                    <input type="text" placeholder="Label" value={this.state.tfLabel} name="tfLabel" onChange={this.onChange} />
+                                    <input type="text" placeholder="give a unique name" value={this.state.tfName} name="tfName" onChange={this.onChange} />
+                                    <input type="text" placeholder="placeholder text" value={this.state.tfPlaceholder} name="tfPlaceholder" onChange={this.onChange}/>
+                                    <span className="likeLabel">Required</span>
+                                    <input type="checkbox" name="tfRequired" checked={this.state.tfRequired} onChange={this.onChecked}/>
                                     <button>TextField Create</button>            
                                     <hr/>
-                                </div>
+                                </Form>
                                 </Fragment>
                             )}
 
                             {this.state.textArea ? (<p className="flip" onClick={(e)=>this.toggle(2)}>Text area <span>+</span></p>):(
                                 <Fragment>
                                 <p className="flip" onClick={(e)=>this.toggle(2)}>Text area <span>-</span></p>
-                                <div id="forTextArea">
-                                    <input type="text" id="labelTextArea" placeholder="Label" />
-                                    <input type="text" id="nameTextArea" placeholder="give a unique name" />
-                                    <input type="text" id="placeholderTextArea" placeholder="placeholder text" />
-                                    <span className="likeLabel">Required</span><input type="checkbox" id="requiredTextArea" />
+                                <Form onSubmit={this.taSubmit}>
+                                    <input type="text" placeholder="Label" value={this.state.taLabel} name="taLabel" onChange={this.onChange}/>
+                                    <input type="text" placeholder="give a unique name" value={this.state.taName} name="taName" onChange={this.onChange}/>
+                                    <input type="text" placeholder="placeholder text" value={this.state.taPlaceholder} name="taPlaceholder" onChange={this.onChange}/>
+                                    <span className="likeLabel">Required</span>
+                                    <input type="checkbox" checked={this.state.taRequired} name="taRequired" onChange={this.onChecked}/>
                                     <button>TextArea Create</button>
                                     <hr/>
-                                </div>
+                                </Form>
                                 </Fragment>
                             )}
 
