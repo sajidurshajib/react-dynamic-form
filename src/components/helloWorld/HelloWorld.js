@@ -143,7 +143,22 @@ class HelloWorld extends Component{
                                     <input className={"checkBoxValue"} placeholder={"Value"}/>
                                 </>)
         }
-        console.log(this.state.mainArray)
+
+
+        //Create visually Dynamic Form
+        const DynamicFormItems = []
+
+        this.state.mainArray.map((value,i)=>{
+            console.log(value)
+            if(value.fname==='tf'){
+                DynamicFormItems.push(
+                                        <input key={value.id} type='text' placeholder={value.placeholder} />
+                                    )
+            }
+            return 0
+        })
+
+        
         return(
             <div className="HelloWorld">
                 <Container>
@@ -264,7 +279,9 @@ class HelloWorld extends Component{
                         </Col>
                         <Col md="7">
                             <Form>
-                                <div id="dynamicForm"></div>
+                                <div id="dynamicForm">
+                                    {DynamicFormItems}
+                                </div>
                             </Form>
                         </Col>
                     </Row>
