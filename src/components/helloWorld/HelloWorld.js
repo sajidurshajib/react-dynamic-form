@@ -152,7 +152,10 @@ class HelloWorld extends Component{
             console.log(value)
             if(value.fname==='tf'){
                 DynamicFormItems.push(
-                                        <input key={value.id} type='text' placeholder={value.placeholder} />
+                                        <Fragment key={i}>
+                                        <label>{value.label}</label>
+                                        <input type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
+                                        </Fragment>
                                     )
             }
             return 0
