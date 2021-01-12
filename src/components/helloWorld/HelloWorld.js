@@ -19,7 +19,6 @@ class HelloWorld extends Component{
         radioBtn: true,
         checkBox: true,
         //dropdown counter
-        dropDownCount: 0,
         radioBtnCount: 0,
         checkBoxCount: 0, 
 
@@ -32,7 +31,13 @@ class HelloWorld extends Component{
         taLabel:'',
         taName:'',
         taPlaceholder:'',
-        taRequired:false
+        taRequired:false,
+        //drop down state
+        ddLabel:'',
+        ddName:'',
+        ddData:[],
+        ddTempText:'',
+        ddTempValue:''
     }
 
     toggle=(ch)=>{
@@ -65,16 +70,16 @@ class HelloWorld extends Component{
     tfSubmit= e =>{
         e.preventDefault()
 
+        this.setState({mainId:this.state.mainId+1})
+
         const elm={
-            id: this.state.mainId+1,
+            id: this.state.mainId,
             fname: 'tf',
             label: this.state.tfLabel,
             name: this.state.tfName,
             placeholder: this.state.tfPlaceholder,
             required: this.state.tfRequired
         }
-
-        this.setState({mainId:this.state.mainId+1})
 
         this.state.mainArray.push(elm)
 
@@ -90,16 +95,17 @@ class HelloWorld extends Component{
     taSubmit= e =>{
         e.preventDefault()
 
+
+        this.setState({mainId:this.state.mainId+1})
+
         const elm={
-            id: this.state.mainId+1,
+            id: this.state.mainId,
             fname: 'ta',
             label: this.state.taLabel,
             name: this.state.taName,
             placeholder: this.state.taPlaceholder,
             required: this.state.taRequired
         }
-
-        this.setState({mainId:this.state.mainId+1})
 
         this.state.mainArray.push(elm)
 
@@ -113,20 +119,58 @@ class HelloWorld extends Component{
     }
 
 
+    ddAddSubmit=(e)=>{
+        const dd = {
+            text:this.state.ddTempText,
+            value: this.state.ddTempValue
+        }
+
+        this.state.ddData.push(dd)
+
+        this.setState({
+            ddTempText:'',
+            ddTempValue:''
+        })
+    }
+
+    ddRemoveSubmit=(e)=>{
+        let indx = this.state.ddData.length-1
+        this.setState({
+            ddData: this.state.ddData.filter((_, i) => i != indx)
+        })
+
+    }
+
+    ddSubmit=e=>{
+        e.preventDefault()
+
+        this.setState({mainId:this.state.mainId+1})
+
+        const elm={
+            id: this.state.mainId,
+            fname: 'dd',
+            label: this.state.ddLabel,
+            name: this.state.ddName,
+            dataArray: this.state.ddData
+        }
+
+        this.state.mainArray.push(elm)
+
+        this.setState({
+            taLabel:'',
+            taName:'',
+            ddData: []     
+        })
+
+    }
+
     render(){
 
-        const dropDownItems = []
+        console.log(this.state.mainArray)
+
         const radioBtnItems = []
         const checkBoxItems = []
-        let i,j,k;
-
-        let c=this.state.dropDownCount
-        for(i=0;i<c;i++) {
-            dropDownItems.push(<>
-                                    <input className={"dropText"} placeholder={"Text"}/>
-                                    <input className={"dropValue"} placeholder={"Value"}/>
-                            </>)
-        }
+        let j,k;
 
         let d=this.state.radioBtnCount
         for(j=0;j<d;j++){
@@ -144,19 +188,58 @@ class HelloWorld extends Component{
                                 </>)
         }
 
+        const ddDataShow=[]
+        this.state.ddData.map((value,i)=>{
+            ddDataShow.push(
+                <Fragment key={i}>
+                    <p className="ddShowLeft">{value.text}</p>
+                    <p className="ddShowRight">{value.value}</p>
+                </Fragment>
+            )
+            return 0;
+        })
+
+
 
         //Create visually Dynamic Form
         const DynamicFormItems = []
 
         this.state.mainArray.map((value,i)=>{
-            console.log(value)
             if(value.fname==='tf'){
                 DynamicFormItems.push(
-                                        <Fragment key={i}>
-                                        <label>{value.label}</label>
-                                        <input type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
-                                        </Fragment>
-                                    )
+                    <Fragment key={i}>
+                        <label>{value.label}</label>
+                        <input type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
+                    </Fragment>
+                )
+            }
+            else if(value.fname==='ta'){
+                DynamicFormItems.push(
+                    <Fragment key={i}>
+                        <label>{value.label}</label>
+                        <textarea name={value.name} placeholder={value.placeholder} required={value.required}></textarea>
+                    </Fragment>
+                )
+            }
+            else if(value.fname==='dd'){
+                
+                const tempoption=[]
+                value.dataArray.map((v,i)=>{
+                    tempoption.push(
+                        <Fragment key={i}>
+                            <option value={v.value}>{v.text}</option>
+                        </Fragment>
+                    )
+                })
+
+                DynamicFormItems.push(
+                    <Fragment key={i}>
+                        <label>{value.label}</label>
+                        <select className="form-control" name={value.name}>
+                           {tempoption}
+                        </select>
+                    </Fragment>
+                )
             }
             return 0
         })
@@ -165,7 +248,7 @@ class HelloWorld extends Component{
         return(
             <div className="HelloWorld">
                 <Container>
-                    <h2 className="center">Dynamic Form</h2>
+                    <h2 className="center heading">Dynamic Form</h2>
                     <Row>
                         <Col md="3">
                             {this.state.textField ? (<p className="flip" onClick={(e)=>this.toggle(1)}>Text field <span>+</span></p>):(
@@ -199,30 +282,30 @@ class HelloWorld extends Component{
                             )}
 
                             {this.state.dropDown ? (<p className="flip" onClick={(e)=>this.toggle(3)}>Drop down <span>+</span></p>):(
-                                <Fragment>
+                                <Fragment >
                                     <p className="flip" onClick={(e)=>this.toggle(3)}>Drop down <span>-</span></p>
-                                    <div id="forDropDown">
-                                        <input type="text" id="labelDropDown" placeholder="Label"/>
-                                        <input type="text" id="nameDropDown" placeholder="give a unique name"/>
-                                        <span className="likeLabel">Required</span><input type="checkbox" id="requiredDropDown"/>
+                                    
+                                    
+
 
                                         <div id="dropDownMakerDiv">
-                                            {dropDownItems}
+                                            <input className="dropText" name="ddTempText" onChange={this.onChange} value={this.state.ddTempText} placeholder="Text"/>
+                                            <input className="dropValue" name="ddTempValue" onChange={this.onChange} value={this.state.ddTempValue} placeholder="Value"/>  
+
+                                            <button className="dropAddRemove" onClick={this.ddAddSubmit}>Add</button>
+                                            <button className="dropAddRemove" onClick={this.ddRemoveSubmit}>Remove</button>
+                                            
+                                            {ddDataShow}
                                         </div>
 
-                                        <button className="dropAddRemove" onClick={(e)=>this.setState(
-                                            {dropDownCount:this.state.dropDownCount+1}
-                                            )}>Add</button>
 
-                                        <button className="dropAddRemove" onClick={(e)=>{
-                                            if(this.state.dropDownCount>0){
-                                                this.setState({dropDownCount:this.state.dropDownCount-1})
-                                            }
-                                            }}>Remove</button>
-
+                                    <Form onSubmit={this.ddSubmit}>
+                                        <input type="text" name="ddLabel" onChange={this.onChange} placeholder="Label"/>
+                                        <input type="text" name="ddName" onChange={this.onChange} placeholder="give a unique name"/>
+                                        
                                         <button className="ml-10">DropDown Create</button>
                                         <hr/>
-                                    </div>
+                                    </Form>
                                 </Fragment>
                             )}
 
@@ -247,7 +330,7 @@ class HelloWorld extends Component{
                                             }
                                         }}>Remove</button>
 
-                                        <button class="ml-10">Radio button Create</button>
+                                        <button className="ml-10">Radio button Create</button>
                                         <hr/>
                                     </div>
                                 </Fragment>

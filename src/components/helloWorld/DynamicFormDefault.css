@@ -1,6 +1,15 @@
 .center{
     text-align: center;
 }
+.heading{
+    background-color: #df4f37;
+    color:#fff;
+    border-radius: 2px;
+    padding: 15px;
+    margin-top: 10px;
+    font-size: 24px;
+    font-weight:500;
+}
 
 /*This is for button*/
 
@@ -28,8 +37,9 @@ button:hover{
 
 label{
     color: #333;
-    display: block;
+    display: inline-block;
     margin: 10px auto;
+    margin-right: 10px;
 }
 .likeLabel{
     color: #333;
@@ -80,6 +90,19 @@ input[type=text]{
 }
 
 
+textarea{
+    border: 1px solid #df4f37;
+    border-radius: 2px;
+    padding:2px 5px;
+    display: block;
+    width: 100%;
+    height: 100px;
+    margin:10px auto;
+}
+textarea:focus{
+    outline: none;
+}
+
 
 
 /* flip design*/
@@ -126,6 +149,28 @@ select.form-control{
     width: auto;
     margin: auto;
     border: 1px solid #df4f37;
+    padding: 5px 20px;
+    margin-right: 20px;
+}
+
+.ddShowLeft{
+    margin-left: 4%;
+    width:44%;
+    display: inline-block;
+    background-color:#fff;
+    border: 1px solid #ff5438;
+    font-size: 12px;
+    padding:4px;
+}
+.ddShowRight{
+    margin-right: 4%;
+    width:44%;
+    display: inline-block;
+    background-color:#ff5438;
+    border: 1px solid #ff5438;
+    color: #fff;
+    font-size: 12px;
+    padding:4px;
 }
 
 
