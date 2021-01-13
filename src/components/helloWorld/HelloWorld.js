@@ -37,7 +37,13 @@ class HelloWorld extends Component{
         ddName:'',
         ddData:[],
         ddTempText:'',
-        ddTempValue:''
+        ddTempValue:'',
+        //radio button state
+        rbLabel:'',
+        rbName:'',
+        rbData:[],
+        rbTempText:'',
+        rbTempValue:''
     }
 
     toggle=(ch)=>{
@@ -119,6 +125,7 @@ class HelloWorld extends Component{
     }
 
 
+    //drop down
     ddAddSubmit=(e)=>{
         const dd = {
             text:this.state.ddTempText,
@@ -136,7 +143,7 @@ class HelloWorld extends Component{
     ddRemoveSubmit=(e)=>{
         let indx = this.state.ddData.length-1
         this.setState({
-            ddData: this.state.ddData.filter((_, i) => i != indx)
+            ddData: this.state.ddData.filter((_, i) => i !== indx)
         })
 
     }
@@ -157,28 +164,67 @@ class HelloWorld extends Component{
         this.state.mainArray.push(elm)
 
         this.setState({
-            taLabel:'',
-            taName:'',
+            ddLabel:'',
+            ddName:'',
             ddData: []     
         })
 
     }
 
+    //radio button
+    rbAddSubmit=(e)=>{
+        const rb = {
+            text:this.state.rbTempText,
+            value: this.state.rbTempValue
+        }
+
+        this.state.rbData.push(rb)
+
+        this.setState({
+            rbTempText:'',
+            rbTempValue:''
+        })
+    }
+
+    rbRemoveSubmit=(e)=>{
+        let indx = this.state.rbData.length-1
+        this.setState({
+            rbData: this.state.rbData.filter((_, i) => i !== indx)
+        })
+
+    }
+
+    rbSubmit=e=>{
+        e.preventDefault()
+
+        this.setState({mainId:this.state.mainId+1})
+
+        const elm={
+            id: this.state.mainId,
+            fname: 'rb',
+            label: this.state.rbLabel,
+            name: this.state.rbName,
+            dataArray: this.state.rbData
+        }
+
+        this.state.mainArray.push(elm)
+
+        this.setState({
+            rbLabel:'',
+            rbName:'',
+            rbData: []     
+        })
+
+    }
+
+
+
     render(){
 
         console.log(this.state.mainArray)
 
-        const radioBtnItems = []
         const checkBoxItems = []
-        let j,k;
-
-        let d=this.state.radioBtnCount
-        for(j=0;j<d;j++){
-            radioBtnItems.push(<>
-                                    <input className={"radioText"} placeholder={"Text"}/>
-                                    <input className={"radioValue"} placeholder={"Value"}/>
-                                </>)
-        }
+        let k;
 
         let e=this.state.checkBoxCount
         for(k=0;k<e;k++){
@@ -191,6 +237,17 @@ class HelloWorld extends Component{
         const ddDataShow=[]
         this.state.ddData.map((value,i)=>{
             ddDataShow.push(
+                <Fragment key={i}>
+                    <p className="ddShowLeft">{value.text}</p>
+                    <p className="ddShowRight">{value.value}</p>
+                </Fragment>
+            )
+            return 0;
+        })
+
+        const rbDataShow=[]
+        this.state.rbData.map((value,i)=>{
+            rbDataShow.push(
                 <Fragment key={i}>
                     <p className="ddShowLeft">{value.text}</p>
                     <p className="ddShowRight">{value.value}</p>
@@ -230,17 +287,51 @@ class HelloWorld extends Component{
                             <option value={v.value}>{v.text}</option>
                         </Fragment>
                     )
+                    return 0
                 })
 
                 DynamicFormItems.push(
                     <Fragment key={i}>
+                        <br/>
                         <label>{value.label}</label>
                         <select className="form-control" name={value.name}>
                            {tempoption}
                         </select>
+                        <br/>
                     </Fragment>
                 )
             }
+            else if(value.fname==='rb'){
+                
+                const tempoption=[]
+                let r=0
+                value.dataArray.map((v,i)=>{
+                    tempoption.push(
+                        <Fragment key={i}>
+                            {r===0 ? 
+                                <input type='radio' name={value.name} value={v.value} checked/> :
+                                <input type='radio' name={value.name} value={v.value} />
+                            }
+                            <label className="radioBtnLabel">{v.text}</label>
+                        </Fragment>
+                    )
+                    r=r+1
+                    return 0
+                })
+
+                DynamicFormItems.push(
+                    <Fragment key={i}>
+                        <br/>
+                        <label>{value.label}</label>
+                        <br/>
+                           {tempoption}
+                        <br/>
+                    </Fragment>
+                )
+            }
+
+
+
             return 0
         })
 
@@ -285,8 +376,6 @@ class HelloWorld extends Component{
                                 <Fragment >
                                     <p className="flip" onClick={(e)=>this.toggle(3)}>Drop down <span>-</span></p>
                                     
-                                    
-
 
                                         <div id="dropDownMakerDiv">
                                             <input className="dropText" name="ddTempText" onChange={this.onChange} value={this.state.ddTempText} placeholder="Text"/>
@@ -300,8 +389,8 @@ class HelloWorld extends Component{
 
 
                                     <Form onSubmit={this.ddSubmit}>
-                                        <input type="text" name="ddLabel" onChange={this.onChange} placeholder="Label"/>
-                                        <input type="text" name="ddName" onChange={this.onChange} placeholder="give a unique name"/>
+                                        <input type="text" name="ddLabel" onChange={this.onChange} value={this.state.ddLabel} placeholder="Label"/>
+                                        <input type="text" name="ddName" onChange={this.onChange} value={this.state.ddName} placeholder="give a unique name"/>
                                         
                                         <button className="ml-10">DropDown Create</button>
                                         <hr/>
@@ -309,32 +398,37 @@ class HelloWorld extends Component{
                                 </Fragment>
                             )}
 
+
+
+
+
                             {this.state.radioBtn ? (<p className="flip" onClick={(e)=>this.toggle(4)}>Radio button <span>+</span></p>):(
                                 <Fragment>
                                     <p className="flip" id="radioHideBtn" onClick={(e)=>this.toggle(4)}>Radio button <span>-</span></p>
-                                    <div id="forRadio">
-                                        <input type="text" id="labelRadio" placeholder="Label"/>
-                                        <input type="text" id="nameRadio" placeholder="give a unique name"/>
-                                        <span className="likeLabel">Required</span><input type="checkbox" id="requiredRadio"/>
+                                                                       
+                                        <div id="radioButtonMakerDiv">
+                                            <input className="dropText" name="rbTempText" onChange={this.onChange} value={this.state.rbTempText} placeholder="Text"/>
+                                            <input className="dropValue" name="rbTempValue" onChange={this.onChange} value={this.state.rbTempValue} placeholder="Value"/>  
 
-                                        <div id="radioMakerDiv">
-                                            {radioBtnItems}
+                                            <button className="dropAddRemove" onClick={this.rbAddSubmit}>Add</button>
+                                            <button className="dropAddRemove" onClick={this.rbRemoveSubmit}>Remove</button>
+                                            
+                                            {rbDataShow}
                                         </div>
 
-                                        <button className="radioAddRemove" onClick={(e)=>this.setState(
-                                            {radioBtnCount:this.state.radioBtnCount+1}
-                                            )}>Add</button>
-                                        <button className="radioAddRemove" onClick={(e)=>{
-                                            if(this.state.radioBtnCount>0){
-                                                this.setState({radioBtnCount:this.state.radioBtnCount-1})
-                                            }
-                                        }}>Remove</button>
 
-                                        <button className="ml-10">Radio button Create</button>
+                                    <Form onSubmit={this.rbSubmit}>
+                                        <input type="text" name="rbLabel" onChange={this.onChange} value={this.state.rbLabel} placeholder="Label"/>
+                                        <input type="text" name="rbName" onChange={this.onChange} value={this.state.rbName} placeholder="give a unique name"/>
+                                        
+                                        <button className="ml-10">DropDown Create</button>
                                         <hr/>
-                                    </div>
+                                    </Form>
                                 </Fragment>
                             )}
+
+
+
 
                             {this.state.checkBox ? (<p className="flip" onClick={(e)=>this.toggle(5)}>Checkbox <span>+</span></p>):(
                                 <Fragment>
