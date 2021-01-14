@@ -11,6 +11,14 @@
     font-weight:500;
 }
 
+code{
+    color: #333 !important;
+    background-color:lightgray;
+    padding:2px;
+    border-radius: 2px;
+    font-size: 11px !important;
+}
+
 /*This is for button*/
 
 button{
@@ -231,4 +239,15 @@ select.form-control{
 .checkBoxLabel{
     display: inline-block;
     margin: 5px;
+}
+
+
+
+.ShowData{
+    font-size:12px;
+    padding:5px 15px;
+    margin-left: 2px !important;
+    border-radius: 2px;
+    font-weight: bold;
+
 }

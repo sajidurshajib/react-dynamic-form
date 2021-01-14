@@ -43,7 +43,15 @@ class HelloWorld extends Component{
         rbName:'',
         rbData:[],
         rbTempText:'',
-        rbTempValue:''
+        rbTempValue:'',
+        //checkbox state
+        cbLabel:'',
+        cbName:'',
+        cbData:[],
+        cbTempText:'',
+        cbTempValue:'',
+        //Show data as array
+        showDataAsArray:false
     }
 
     toggle=(ch)=>{
@@ -61,6 +69,9 @@ class HelloWorld extends Component{
         }
         else if(ch===5){
             this.setState({checkBox:!this.state.checkBox})
+        }
+        else if(ch===6){
+            this.setState({showDataAsArray:!this.state.showDataAsArray})
         }
     }
 
@@ -218,21 +229,64 @@ class HelloWorld extends Component{
     }
 
 
+    //checkbox button
+    cbAddSubmit=(e)=>{
+        const cb = {
+            text:this.state.cbTempText,
+            value: this.state.cbTempValue
+        }
+
+        this.state.cbData.push(cb)
+
+        this.setState({
+            cbTempText:'',
+            cbTempValue:''
+        })
+    }
+
+    cbRemoveSubmit=(e)=>{
+        let indx = this.state.cbData.length-1
+        this.setState({
+            cbData: this.state.cbData.filter((_, i) => i !== indx)
+        })
+
+    }
+
+    cbSubmit=(e)=>{
+        e.preventDefault()
+
+        this.setState({mainId:this.state.mainId+1})
+
+        const elm={
+            id: this.state.mainId,
+            fname: 'cb',
+            label: this.state.cbLabel,
+            name: this.state.cbName,
+            dataArray: this.state.cbData
+        }
+
+        this.state.mainArray.push(elm)
+
+        this.setState({
+            cbLabel:'',
+            cbName:'',
+            cbData: []     
+        })
+
+    }
+
 
     render(){
 
-        console.log(this.state.mainArray)
-
-        const checkBoxItems = []
-        let k;
-
-        let e=this.state.checkBoxCount
-        for(k=0;k<e;k++){
-            checkBoxItems.push(<>
-                                    <input className={"checkBoxText"} placeholder={"Text"}/>
-                                    <input className={"checkBoxValue"} placeholder={"Value"}/>
-                                </>)
-        }
+        const mainArrayShowInCode=[]
+        this.state.mainArray.map((value,i)=>{
+            mainArrayShowInCode.push(
+                <Fragment key={i}>
+                    <code>{JSON.stringify(value)}</code>
+                </Fragment>
+            )
+            return 0;
+        })
 
         const ddDataShow=[]
         this.state.ddData.map((value,i)=>{
@@ -248,6 +302,17 @@ class HelloWorld extends Component{
         const rbDataShow=[]
         this.state.rbData.map((value,i)=>{
             rbDataShow.push(
+                <Fragment key={i}>
+                    <p className="ddShowLeft">{value.text}</p>
+                    <p className="ddShowRight">{value.value}</p>
+                </Fragment>
+            )
+            return 0;
+        })
+
+        const cbDataShow=[]
+        this.state.cbData.map((value,i)=>{
+            cbDataShow.push(
                 <Fragment key={i}>
                     <p className="ddShowLeft">{value.text}</p>
                     <p className="ddShowRight">{value.value}</p>
@@ -313,6 +378,32 @@ class HelloWorld extends Component{
                                 <input type='radio' name={value.name} value={v.value} />
                             }
                             <label className="radioBtnLabel">{v.text}</label>
+                        </Fragment>
+                    )
+                    r=r+1
+                    return 0
+                })
+
+                DynamicFormItems.push(
+                    <Fragment key={i}>
+                        <br/>
+                        <label>{value.label}</label>
+                        <br/>
+                           {tempoption}
+                        <br/>
+                    </Fragment>
+                )
+            }
+            else if(value.fname==='cb'){
+                
+                const tempoption=[]
+                let r=0
+                value.dataArray.map((v,i)=>{
+                    tempoption.push(
+                        <Fragment key={i}>
+                            <input type='checkbox' name={value.name} value={v.value} />
+                            <label className="checkBoxLabel">{v.text}</label>
+                            <br/>
                         </Fragment>
                     )
                     r=r+1
@@ -433,26 +524,25 @@ class HelloWorld extends Component{
                             {this.state.checkBox ? (<p className="flip" onClick={(e)=>this.toggle(5)}>Checkbox <span>+</span></p>):(
                                 <Fragment>
                                     <p className="flip" id="checkBoxHideBtn" onClick={(e)=>this.toggle(5)}>Checkbox <span>-</span></p>
-                                    <div id="forCheckBox">
-                                        <input type="text" id="labelCheckBox" placeholder="Label"/>
-                                        <input type="text" id="nameCheckBox" placeholder="give a unique name"/>
-                                        <span className="likeLabel">Required</span><input type="checkbox" id="requiredCheckBox"/>
-
+                                                                   
                                         <div id="checkBoxMakerDiv">
-                                            {checkBoxItems}
+                                            <input className="dropText" name="cbTempText" onChange={this.onChange} value={this.state.cbTempText} placeholder="Text"/>
+                                            <input className="dropValue" name="cbTempValue" onChange={this.onChange} value={this.state.cbTempValue} placeholder="Value"/>  
+
+                                            <button className="dropAddRemove" onClick={this.cbAddSubmit}>Add</button>
+                                            <button className="dropAddRemove" onClick={this.cbRemoveSubmit}>Remove</button>
+                                            
+                                            {cbDataShow}
                                         </div>
 
-                                        <button className="checkBoxAddRemove" onClick={(e)=>this.setState(
-                                            {checkBoxCount:this.state.checkBoxCount+1}
-                                        )}>Add</button>
-                                        <button className="checkBoxAddRemove" onClick={(e)=>{
-                                            if(this.state.checkBoxCount>0){
-                                                this.setState({checkBoxCount:this.state.checkBoxCount-1})
-                                            }
-                                        }}>Remove</button>
-                                        <button class="ml-10">Checkbox Create</button>
+
+                                    <Form onSubmit={this.cbSubmit}>
+                                        <input type="text" name="cbLabel" onChange={this.onChange} value={this.state.cbLabel} placeholder="Label"/>
+                                        <input type="text" name="cbName" onChange={this.onChange} value={this.state.cbName} placeholder="give a unique name"/>
+                                        
+                                        <button className="ml-10">DropDown Create</button>
                                         <hr/>
-                                    </div>
+                                    </Form>
                                 </Fragment>
                             )}
 
@@ -463,6 +553,9 @@ class HelloWorld extends Component{
                                     {DynamicFormItems}
                                 </div>
                             </Form>
+                            {/* For presentation */}
+                            {this.state.mainId!==0 ? (<button className="ShowData" onClick={(e)=>this.toggle(6)}>Show data</button>) : null}
+                            {this.state.showDataAsArray ? mainArrayShowInCode :null}
                         </Col>
                     </Row>
                 </Container>
