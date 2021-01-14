@@ -512,7 +512,7 @@ class HelloWorld extends Component{
                                         <input type="text" name="rbLabel" onChange={this.onChange} value={this.state.rbLabel} placeholder="Label"/>
                                         <input type="text" name="rbName" onChange={this.onChange} value={this.state.rbName} placeholder="give a unique name"/>
                                         
-                                        <button className="ml-10">DropDown Create</button>
+                                        <button className="ml-10">RadioButton Create</button>
                                         <hr/>
                                     </Form>
                                 </Fragment>
@@ -540,7 +540,7 @@ class HelloWorld extends Component{
                                         <input type="text" name="cbLabel" onChange={this.onChange} value={this.state.cbLabel} placeholder="Label"/>
                                         <input type="text" name="cbName" onChange={this.onChange} value={this.state.cbName} placeholder="give a unique name"/>
                                         
-                                        <button className="ml-10">DropDown Create</button>
+                                        <button className="ml-10">CheckBox Create</button>
                                         <hr/>
                                     </Form>
                                 </Fragment>
