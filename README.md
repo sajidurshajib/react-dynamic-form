@@ -21,4 +21,4 @@ npm install -g yarn
 
 
 ![Dynamic forms](/img/1.png)
-![How it works](/img/2.png)
+![How it works](/img/2.PNG)
