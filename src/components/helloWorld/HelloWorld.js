@@ -12,6 +12,7 @@ class HelloWorld extends Component{
     state={
         mainId:0,
         mainArray:[],
+        submitArray:[],
         //for toggle
         textField: true,
         textArea: true,
@@ -87,8 +88,6 @@ class HelloWorld extends Component{
     tfSubmit= e =>{
         e.preventDefault()
 
-        this.setState({mainId:this.state.mainId+1})
-
         const elm={
             id: this.state.mainId,
             fname: 'tf',
@@ -99,6 +98,9 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
+        this.state.submitArray.push({[elm.name]:''})
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
             tfLabel:'',
@@ -112,9 +114,6 @@ class HelloWorld extends Component{
     taSubmit= e =>{
         e.preventDefault()
 
-
-        this.setState({mainId:this.state.mainId+1})
-
         const elm={
             id: this.state.mainId,
             fname: 'ta',
@@ -125,6 +124,9 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
+        this.state.submitArray.push(elm.name)
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
             taLabel:'',
@@ -162,8 +164,6 @@ class HelloWorld extends Component{
     ddSubmit=e=>{
         e.preventDefault()
 
-        this.setState({mainId:this.state.mainId+1})
-
         const elm={
             id: this.state.mainId,
             fname: 'dd',
@@ -173,6 +173,9 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
+        this.state.submitArray.push(elm.name)
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
             ddLabel:'',
@@ -208,8 +211,6 @@ class HelloWorld extends Component{
     rbSubmit=e=>{
         e.preventDefault()
 
-        this.setState({mainId:this.state.mainId+1})
-
         const elm={
             id: this.state.mainId,
             fname: 'rb',
@@ -219,6 +220,9 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
+        this.state.submitArray.push(elm.name)
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
             rbLabel:'',
@@ -255,8 +259,6 @@ class HelloWorld extends Component{
     cbSubmit=(e)=>{
         e.preventDefault()
 
-        this.setState({mainId:this.state.mainId+1})
-
         const elm={
             id: this.state.mainId,
             fname: 'cb',
@@ -266,6 +268,9 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
+        this.state.submitArray.push(elm.name)
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
             cbLabel:'',
@@ -276,8 +281,25 @@ class HelloWorld extends Component{
     }
 
 
-    render(){
+    submitOnchange=(e)=>{
+        this.state.submitArray.map((value,i)=>{
+            let key=i
+            if(key<=0){
+                let a = {[e.target.name]:e.target.value}
+                
+                if(Object.getOwnPropertyNames(value)[0]===Object.getOwnPropertyNames(a)[0]){
+                    console.log(key)
+                    
+                    this.setState({submitArray:[a]})
+                    console.log(this.state.submitArray)    
+                }
+            }
+            return 0
+        })
+    }
 
+
+    render(){
         const mainArrayShowInCode=[]
         this.state.mainArray.map((value,i)=>{
             mainArrayShowInCode.push(
@@ -323,15 +345,15 @@ class HelloWorld extends Component{
 
 
 
+
         //Create visually Dynamic Form
         const DynamicFormItems = []
-
         this.state.mainArray.map((value,i)=>{
             if(value.fname==='tf'){
                 DynamicFormItems.push(
                     <Fragment key={i}>
                         <label>{value.label}</label>
-                        <input type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
+                        <input onChange={this.submitOnchange} type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
                     </Fragment>
                 )
             }
@@ -420,15 +442,14 @@ class HelloWorld extends Component{
                     </Fragment>
                 )
             }
-
-
-
             return 0
         })
 
-        
+        //
+
         return(
-            <div className="HelloWorld">
+            <div className="HelloWorld">    
+            {console.log(this.state.submitArray)}  
                 <Container>
                     <h2 className="center heading">Dynamic Form</h2>
                     <Row>
