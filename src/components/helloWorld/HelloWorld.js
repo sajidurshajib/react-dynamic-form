@@ -285,14 +285,8 @@ class HelloWorld extends Component{
         this.state.submitArray.map((value,i)=>{
             let key=i
             if(key<=0){
-                let a = {[e.target.name]:e.target.value}
-                
-                if(Object.getOwnPropertyNames(value)[0]===Object.getOwnPropertyNames(a)[0]){
-                    console.log(key)
-                    
-                    this.setState({submitArray:[a]})
-                    console.log(this.state.submitArray)    
-                }
+                this.state.submitArray[e.target.id]={[e.target.name]:e.target.value}
+                console.log(this.state.submitArray)
             }
             return 0
         })
@@ -353,7 +347,7 @@ class HelloWorld extends Component{
                 DynamicFormItems.push(
                     <Fragment key={i}>
                         <label>{value.label}</label>
-                        <input onChange={this.submitOnchange} type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
+                        <input id={value.id} onChange={this.submitOnchange} type='text' name={value.name} placeholder={value.placeholder} required={value.required} />
                     </Fragment>
                 )
             }
