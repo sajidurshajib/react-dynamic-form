@@ -280,12 +280,28 @@ class HelloWorld extends Component{
 
     }
 
+    //==============================
+    //
+    //Final submit data related code
+    //
+    //==============================
 
     submitOnchange=(e)=>{
         this.state.submitArray.map((value,i)=>{
             let key=i
             if(key<=0){
                 this.state.submitArray[e.target.id]={[e.target.name]:e.target.value}
+                console.log(this.state.submitArray)
+            }
+            return 0
+        })
+    }
+
+    submitChecked=(e)=>{
+        this.state.submitArray.map((value,i)=>{
+            let key=i
+            if(key<=0){
+                this.state.submitArray[e.target.id]={[e.target.name]:e.target.checked}
                 console.log(this.state.submitArray)
             }
             return 0
@@ -355,7 +371,7 @@ class HelloWorld extends Component{
                 DynamicFormItems.push(
                     <Fragment key={i}>
                         <label>{value.label}</label>
-                        <textarea name={value.name} placeholder={value.placeholder} required={value.required}></textarea>
+                        <textarea id={value.id} onChange={this.submitOnchange} name={value.name} placeholder={value.placeholder} required={value.required}></textarea>
                     </Fragment>
                 )
             }
@@ -375,7 +391,7 @@ class HelloWorld extends Component{
                     <Fragment key={i}>
                         <br/>
                         <label>{value.label}</label>
-                        <select className="form-control" name={value.name}>
+                        <select id={value.id} onChange={this.submitOnchange} className="form-control" name={value.name}>
                            {tempoption}
                         </select>
                         <br/>
@@ -390,8 +406,8 @@ class HelloWorld extends Component{
                     tempoption.push(
                         <Fragment key={i}>
                             {r===0 ? 
-                                <input type='radio' name={value.name} value={v.value} checked/> :
-                                <input type='radio' name={value.name} value={v.value} />
+                                <input id={value.id} onChange={this.submitOnchange} type='radio' name={value.name} value={v.value} checked/> :
+                                <input id={value.id} onChange={this.submitOnchange} type='radio' name={value.name} value={v.value} />
                             }
                             <label className="radioBtnLabel">{v.text}</label>
                         </Fragment>
@@ -417,7 +433,7 @@ class HelloWorld extends Component{
                 value.dataArray.map((v,i)=>{
                     tempoption.push(
                         <Fragment key={i}>
-                            <input type='checkbox' name={value.name} value={v.value} />
+                            <input id={value.id} onChange={this.submitOnchange} type='checkbox' name={value.name} value={v.value} />
                             <label className="checkBoxLabel">{v.text}</label>
                             <br/>
                         </Fragment>
