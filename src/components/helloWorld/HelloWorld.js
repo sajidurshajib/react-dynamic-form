@@ -290,23 +290,26 @@ class HelloWorld extends Component{
         this.state.submitArray.map((value,i)=>{
             let key=i
             if(key<=0){
-                this.state.submitArray[e.target.id]={[e.target.name]:e.target.value}
+                let arr = this.state.submitArray
+                arr[e.target.id]={[e.target.name]:e.target.value}
+                this.setState({submitArray:arr})
+                //this.state.submitArray[e.target.id]={[e.target.name]:e.target.value}
                 console.log(this.state.submitArray)
             }
             return 0
         })
     }
 
-    submitChecked=(e)=>{
-        this.state.submitArray.map((value,i)=>{
-            let key=i
-            if(key<=0){
-                this.state.submitArray[e.target.id]={[e.target.name]:e.target.checked}
-                console.log(this.state.submitArray)
-            }
-            return 0
-        })
-    }
+    // submitChecked=(e)=>{
+    //     this.state.submitArray.map((value,i)=>{
+    //         let key=i
+    //         if(key<=0){
+    //             this.state.submitArray[e.target.id]={[e.target.name]:e.target.checked}
+    //             console.log(this.state.submitArray)
+    //         }
+    //         return 0
+    //     })
+    // }
 
 
     render(){
