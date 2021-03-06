@@ -293,7 +293,21 @@ class HelloWorld extends Component{
                 let arr = this.state.submitArray
                 arr[e.target.id]={[e.target.name]:e.target.value}
                 this.setState({submitArray:arr})
-                //this.state.submitArray[e.target.id]={[e.target.name]:e.target.value}
+                
+                console.log(this.state.submitArray)
+            }
+            return 0
+        })
+    }
+
+    submitOnradio=(e)=>{
+        this.state.submitArray.map((value,i)=>{
+            let key=i
+            if(key<=0){
+                let arr = this.state.submitArray
+                arr[e.target.getAttribute("as")]={[e.target.name]:e.target.value}
+                this.setState({submitArray:arr})
+                
                 console.log(this.state.submitArray)
             }
             return 0
@@ -409,8 +423,8 @@ class HelloWorld extends Component{
                     tempoption.push(
                         <Fragment key={i}>
                             {r===0 ? 
-                                <input id={value.id} onChange={this.submitOnchange} type='radio' name={value.name} value={v.value} checked/> :
-                                <input id={value.id} onChange={this.submitOnchange} type='radio' name={value.name} value={v.value} />
+                                <input as={value.id} onChange={this.submitOnradio} type='radio' name={value.name} value={v.value} checked/> :
+                                <input as={value.id} onChange={this.submitOnradio} type='radio' name={value.name} value={v.value} />
                             }
                             <label className="radioBtnLabel">{v.text}</label>
                         </Fragment>
