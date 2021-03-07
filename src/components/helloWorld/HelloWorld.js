@@ -314,6 +314,21 @@ class HelloWorld extends Component{
         })
     }
 
+    submitCheckbox=(e)=>{
+        this.state.submitArray.map((value,i)=>{
+            let key=i
+            if(key<=0){
+                let arr = this.state.submitArray
+                if(typeof(arr[e.target.getAttribute("as")])==='string'){
+                    console.log('this is a string')
+                }
+                
+                console.log(this.state.submitArray)
+            }
+            return 0
+        })
+    }
+
     // submitChecked=(e)=>{
     //     this.state.submitArray.map((value,i)=>{
     //         let key=i
@@ -450,7 +465,7 @@ class HelloWorld extends Component{
                 value.dataArray.map((v,i)=>{
                     tempoption.push(
                         <Fragment key={i}>
-                            <input id={value.id} onChange={this.submitOnchange} type='checkbox' name={value.name} value={v.value} />
+                            <input as={value.id} onChange={this.submitCheckbox} type='checkbox' name={value.name} value={v.value} />
                             <label className="checkBoxLabel">{v.text}</label>
                             <br/>
                         </Fragment>
