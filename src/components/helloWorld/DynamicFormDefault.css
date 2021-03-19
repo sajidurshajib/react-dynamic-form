@@ -40,7 +40,13 @@ button:hover{
     background-color: #ff5438;
 }
 
-
+.ml-10{
+    display: inline-block !important;
+    width: 100%;
+    margin-left: 0!important;
+    border-radius: 2px;
+    background-color: #c62828;
+}
 /*This is for label*/
 
 label{
@@ -141,6 +147,7 @@ textarea:focus{
     display:inline-block;
     width: 40%;
     margin: 5px 9px;
+    background-color: #c62828;
 }
 .dropText{
     display:inline-block;

@@ -124,7 +124,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.name)
+        this.state.submitArray.push({[elm.name]:''})
 
         this.setState({mainId:this.state.mainId+1})
 
@@ -505,7 +505,7 @@ class HelloWorld extends Component{
                                     <input type="text" placeholder="placeholder text" value={this.state.tfPlaceholder} name="tfPlaceholder" onChange={this.onChange}/>
                                     <span className="likeLabel">Required</span>
                                     <input type="checkbox" name="tfRequired" checked={this.state.tfRequired} onChange={this.onChecked}/>
-                                    <button>TextField Create</button>            
+                                    <button className="ml-10">TextField Create</button>            
                                     <hr/>
                                 </Form>
                                 </Fragment>
@@ -587,25 +587,21 @@ class HelloWorld extends Component{
                             {this.state.checkBox ? (<p className="flip" onClick={(e)=>this.toggle(5)}>Checkbox <span>+</span></p>):(
                                 <Fragment>
                                     <p className="flip" id="checkBoxHideBtn" onClick={(e)=>this.toggle(5)}>Checkbox <span>-</span></p>
-                                                                   
-                                        <div id="checkBoxMakerDiv">
-                                            <input className="dropText" name="cbTempText" onChange={this.onChange} value={this.state.cbTempText} placeholder="Text"/>
-                                            <input className="dropValue" name="cbTempValue" onChange={this.onChange} value={this.state.cbTempValue} placeholder="Value"/>  
-
-                                            <button className="dropAddRemove" onClick={this.cbAddSubmit}>Add</button>
-                                            <button className="dropAddRemove" onClick={this.cbRemoveSubmit}>Remove</button>
-                                            
-                                            {cbDataShow}
-                                        </div>
-
 
                                     <Form onSubmit={this.cbSubmit}>
                                         <input type="text" name="cbLabel" onChange={this.onChange} value={this.state.cbLabel} placeholder="Label"/>
-                                        <input type="text" name="cbName" onChange={this.onChange} value={this.state.cbName} placeholder="give a unique name"/>
-                                        
-                                        <button className="ml-10">CheckBox Create</button>
+                                        <button className="ml-10">Create label</button>
+                                        <hr/>
+                                    </Form>                               
+
+                                    <Form onSubmit={this.cbSubmit}>
+                                            <input className="dropText" name="rbTempText" onChange={this.onChange} value={this.state.rbTempText} placeholder="Text"/>
+                                            <input className="dropValue" name="rbTempValue" onChange={this.onChange} value={this.state.rbTempValue} placeholder="Value"/>  
+
+                                            <button className="dropAddRemove" onClick={this.rbAddSubmit}>Add</button>
                                         <hr/>
                                     </Form>
+
                                 </Fragment>
                             )}
 
