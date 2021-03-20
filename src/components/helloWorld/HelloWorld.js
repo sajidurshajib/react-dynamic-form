@@ -46,11 +46,9 @@ class HelloWorld extends Component{
         rbTempText:'',
         rbTempValue:'',
         //checkbox state
-        cbLabel:'',
-        cbName:'',
-        cbData:[],
-        cbTempText:'',
-        cbTempValue:'',
+        jstLabel:'',
+        cbText:'',
+        cbValue:'',
         //Show data as array
         showDataAsArray:false
     }
@@ -232,53 +230,51 @@ class HelloWorld extends Component{
 
     }
 
+    jstLblSubmit=e=>{
+        e.preventDefault()
 
-    //checkbox button
-    cbAddSubmit=(e)=>{
-        const cb = {
-            text:this.state.cbTempText,
-            value: this.state.cbTempValue
+        const elm={
+            id: this.state.mainId,
+            fname: 'lbl',
+            label: this.state.jstLabel,
         }
 
-        this.state.cbData.push(cb)
+        this.state.mainArray.push(elm)
+        this.state.submitArray.push(elm.id)
+
+        this.setState({mainId:this.state.mainId+1})
 
         this.setState({
-            cbTempText:'',
-            cbTempValue:''
-        })
-    }
-
-    cbRemoveSubmit=(e)=>{
-        let indx = this.state.cbData.length-1
-        this.setState({
-            cbData: this.state.cbData.filter((_, i) => i !== indx)
+            jstLabel:''   
         })
 
     }
 
-    cbSubmit=(e)=>{
+
+    cbSubmit=e=>{
         e.preventDefault()
 
         const elm={
             id: this.state.mainId,
             fname: 'cb',
-            label: this.state.cbLabel,
-            name: this.state.cbName,
-            dataArray: this.state.cbData
+            text: this.state.cbText,
+            value:this.state.cbValue
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.name)
+        this.state.submitArray.push(elm.id)
 
         this.setState({mainId:this.state.mainId+1})
 
         this.setState({
-            cbLabel:'',
-            cbName:'',
-            cbData: []     
+            cbText:'',
+            cbValue:''    
         })
 
     }
+
+
+    
 
     //==============================
     //
@@ -374,17 +370,6 @@ class HelloWorld extends Component{
             return 0;
         })
 
-        const cbDataShow=[]
-        this.state.cbData.map((value,i)=>{
-            cbDataShow.push(
-                <Fragment key={i}>
-                    <p className="ddShowLeft">{value.text}</p>
-                    <p className="ddShowRight">{value.value}</p>
-                </Fragment>
-            )
-            return 0;
-        })
-
 
 
 
@@ -458,28 +443,18 @@ class HelloWorld extends Component{
                     </Fragment>
                 )
             }
-            else if(value.fname==='cb'){
-                
-                const tempoption=[]
-                let r=0
-                value.dataArray.map((v,i)=>{
-                    tempoption.push(
-                        <Fragment key={i}>
-                            <input as={value.id} onChange={this.submitCheckbox} type='checkbox' name={value.name} value={v.value} />
-                            <label className="checkBoxLabel">{v.text}</label>
-                            <br/>
-                        </Fragment>
-                    )
-                    r=r+1
-                    return 0
-                })
-
+            else if(value.fname==='lbl'){
                 DynamicFormItems.push(
                     <Fragment key={i}>
-                        <br/>
                         <label>{value.label}</label>
                         <br/>
-                           {tempoption}
+                    </Fragment>
+                )
+            }
+            else if(value.fname==='cb'){
+                DynamicFormItems.push(
+                    <Fragment key={i}>
+                        <input type="checkbox" value={value.value}/><span> </span><label>{value.text}</label>
                         <br/>
                     </Fragment>
                 )
@@ -520,7 +495,7 @@ class HelloWorld extends Component{
                                     <input type="text" placeholder="placeholder text" value={this.state.taPlaceholder} name="taPlaceholder" onChange={this.onChange}/>
                                     <span className="likeLabel">Required</span>
                                     <input type="checkbox" checked={this.state.taRequired} name="taRequired" onChange={this.onChecked}/>
-                                    <button>TextArea Create</button>
+                                    <button className="ml-10">TextArea Create</button>
                                     <hr/>
                                 </Form>
                                 </Fragment>
@@ -588,17 +563,17 @@ class HelloWorld extends Component{
                                 <Fragment>
                                     <p className="flip" id="checkBoxHideBtn" onClick={(e)=>this.toggle(5)}>Checkbox <span>-</span></p>
 
-                                    <Form onSubmit={this.cbSubmit}>
-                                        <input type="text" name="cbLabel" onChange={this.onChange} value={this.state.cbLabel} placeholder="Label"/>
+                                    <Form onSubmit={this.jstLblSubmit}>
+                                        <input type="text" name="jstLabel" onChange={this.onChange} value={this.state.jstLabel} placeholder="Label"/>
                                         <button className="ml-10">Create label</button>
                                         <hr/>
                                     </Form>                               
 
                                     <Form onSubmit={this.cbSubmit}>
-                                            <input className="dropText" name="rbTempText" onChange={this.onChange} value={this.state.rbTempText} placeholder="Text"/>
-                                            <input className="dropValue" name="rbTempValue" onChange={this.onChange} value={this.state.rbTempValue} placeholder="Value"/>  
+                                            <input className="dropText" name="cbText" onChange={this.onChange} value={this.state.cbText} placeholder="Text"/>
+                                            <input className="dropValue" name="cbValue" onChange={this.onChange} value={this.state.cbValue} placeholder="Value"/>  
 
-                                            <button className="dropAddRemove" onClick={this.rbAddSubmit}>Add</button>
+                                            <button className="ml-10">Add</button>
                                         <hr/>
                                     </Form>
 
