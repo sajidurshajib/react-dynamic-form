@@ -146,7 +146,7 @@ textarea:focus{
 .dropAddRemove{
     display:inline-block;
     width: 40%;
-    margin: 5px 9px;
+    margin: 5px 15px 5px 10px!important;
     background-color: #c62828;
 }
 .dropText{
@@ -157,7 +157,7 @@ textarea:focus{
 .dropValue{
     display: inline-block;
     width: 40%;
-    margin: 5px 10px;
+    margin: 5px 15px;
 }
 select.form-control{
     display: inline-block;

@@ -6,7 +6,7 @@ import {
     Form
 } from 'react-bootstrap'
 import './DynamicFormDefault.css'
-
+//MARK: class start
 class HelloWorld extends Component{
     
     state={
@@ -48,10 +48,13 @@ class HelloWorld extends Component{
         //checkbox state
         jstLabel:'',
         cbText:'',
+        cbName:'',
         cbValue:'',
         //Show data as array
-        showDataAsArray:false
+        showDataAsArray:false,
+        submitDataAsArray:false
     }
+// MARK: state finished
 
     toggle=(ch)=>{
         if(ch===1){
@@ -71,6 +74,9 @@ class HelloWorld extends Component{
         }
         else if(ch===6){
             this.setState({showDataAsArray:!this.state.showDataAsArray})
+        }
+        else if(ch===7){
+            this.setState({submitDataAsArray:!this.state.submitDataAsArray})
         }
     }
 
@@ -171,7 +177,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.name)
+        this.state.submitArray.push({[elm.name]:''})
 
         this.setState({mainId:this.state.mainId+1})
 
@@ -218,7 +224,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.name)
+        this.state.submitArray.push({[elm.name]:''})
 
         this.setState({mainId:this.state.mainId+1})
 
@@ -257,16 +263,18 @@ class HelloWorld extends Component{
         const elm={
             id: this.state.mainId,
             fname: 'cb',
+            name:this.state.cbName,
             text: this.state.cbText,
             value:this.state.cbValue
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.id)
+        this.state.submitArray.push({[elm.name]:false})
 
         this.setState({mainId:this.state.mainId+1})
 
         this.setState({
+            cbName:'',
             cbText:'',
             cbValue:''    
         })
@@ -278,7 +286,7 @@ class HelloWorld extends Component{
 
     //==============================
     //
-    //Final submit data related code
+    //MARK: final submit 
     //
     //==============================
 
@@ -315,9 +323,8 @@ class HelloWorld extends Component{
             let key=i
             if(key<=0){
                 let arr = this.state.submitArray
-                if(typeof(arr[e.target.getAttribute("as")])==='string'){
-                    console.log('this is a string')
-                }
+                arr[e.target.id]={[e.target.name]:e.target.checked}
+                this.setState({submitArray:arr})
                 
                 console.log(this.state.submitArray)
             }
@@ -325,22 +332,23 @@ class HelloWorld extends Component{
         })
     }
 
-    // submitChecked=(e)=>{
-    //     this.state.submitArray.map((value,i)=>{
-    //         let key=i
-    //         if(key<=0){
-    //             this.state.submitArray[e.target.id]={[e.target.name]:e.target.checked}
-    //             console.log(this.state.submitArray)
-    //         }
-    //         return 0
-    //     })
-    // }
-
 
     render(){
+        //MARK: render start
+
         const mainArrayShowInCode=[]
         this.state.mainArray.map((value,i)=>{
             mainArrayShowInCode.push(
+                <Fragment key={i}>
+                    <code>{JSON.stringify(value)}</code>
+                </Fragment>
+            )
+            return 0;
+        })
+
+        const submitArrayShowInCode=[]
+        this.state.submitArray.map((value,i)=>{
+            submitArrayShowInCode.push(
                 <Fragment key={i}>
                     <code>{JSON.stringify(value)}</code>
                 </Fragment>
@@ -454,7 +462,7 @@ class HelloWorld extends Component{
             else if(value.fname==='cb'){
                 DynamicFormItems.push(
                     <Fragment key={i}>
-                        <input type="checkbox" value={value.value}/><span> </span><label>{value.text}</label>
+                        <input type="checkbox" id={value.id} name={value.name} onChange={this.submitCheckbox} value={value.value}/><span> </span><label>{value.text}</label>
                         <br/>
                     </Fragment>
                 )
@@ -462,7 +470,7 @@ class HelloWorld extends Component{
             return 0
         })
 
-        //
+        //MARK: return start
 
         return(
             <div className="HelloWorld">    
@@ -570,7 +578,8 @@ class HelloWorld extends Component{
                                     </Form>                               
 
                                     <Form onSubmit={this.cbSubmit}>
-                                            <input className="dropText" name="cbText" onChange={this.onChange} value={this.state.cbText} placeholder="Text"/>
+                                            <input type="text" name="cbText" onChange={this.onChange} value={this.state.cbText} placeholder="Text"/>
+                                            <input className="dropText" name="cbName" onChange={this.onChange} value={this.state.cbName} placeholder="Name"/>
                                             <input className="dropValue" name="cbValue" onChange={this.onChange} value={this.state.cbValue} placeholder="Value"/>  
 
                                             <button className="ml-10">Add</button>
@@ -582,6 +591,12 @@ class HelloWorld extends Component{
 
                         </Col>
                         <Col md="7">
+
+                            {
+                                //MARK: last form
+                            }
+
+
                             <Form>
                                 <div id="dynamicForm">
                                     {DynamicFormItems}
@@ -590,6 +605,10 @@ class HelloWorld extends Component{
                             {/* For presentation */}
                             {this.state.mainId!==0 ? (<button className="ShowData" onClick={(e)=>this.toggle(6)}>Show data</button>) : null}
                             {this.state.showDataAsArray ? mainArrayShowInCode :null}
+
+                            {/* For presentation */}
+                            {this.state.mainId!==0 ? (<button className="ShowData" onClick={(e)=>this.toggle(7)}>Submit data</button>) : null}
+                            {this.state.submitDataAsArray ? submitArrayShowInCode :null}
                         </Col>
                     </Row>
                 </Container>
