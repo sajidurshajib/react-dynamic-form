@@ -179,7 +179,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push({[elm.name]:''})
+        this.state.submitArray.push({[elm.name]:elm.dataArray[0].value})
 
         this.setState({mainId:this.state.mainId+1})
 
@@ -226,7 +226,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push({[elm.name]:''})
+        this.state.submitArray.push({[elm.name]:elm.dataArray[0].value})
 
         this.setState({mainId:this.state.mainId+1})
 
@@ -248,7 +248,7 @@ class HelloWorld extends Component{
         }
 
         this.state.mainArray.push(elm)
-        this.state.submitArray.push(elm.id)
+        this.state.submitArray.push(null)
 
         this.setState({mainId:this.state.mainId+1})
 
