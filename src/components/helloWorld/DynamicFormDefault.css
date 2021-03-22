@@ -124,7 +124,7 @@ textarea:focus{
     font-weight: 700;
     font-size: 16px;
     padding: 5px 10px;
-    margin: 2px;
+    margin: 2px 0;
     border-radius:2px;
     background-color: #df4f37;
     color: #fff;

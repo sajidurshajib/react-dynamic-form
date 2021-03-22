@@ -88,6 +88,8 @@ class HelloWorld extends Component{
         this.setState({ [e.target.name]: e.target.checked })
     }
 
+    //MARK: togle and onChange
+
 
     tfSubmit= e =>{
         e.preventDefault()
@@ -282,13 +284,15 @@ class HelloWorld extends Component{
     }
 
 
-    
 
     //==============================
     //
-    //MARK: final submit 
+    //MARK: submit btn and final submit
     //
     //==============================
+
+
+
 
     submitOnchange=(e)=>{
         this.state.submitArray.map((value,i)=>{
